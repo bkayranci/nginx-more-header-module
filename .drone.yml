@@ -1,0 +1,15 @@
+---
+kind: pipeline
+name: compile-on-amd64
+
+platform:
+  arch: amd64
+
+steps:
+- name: compile
+  image: gcc
+  commands:
+  - cd nginx/auto
+  - ./configure --add-dynamic-module=../headers-more-nginx-module 
+  - make
+  - ls -lh objs/
