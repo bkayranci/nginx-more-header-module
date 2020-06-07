@@ -10,29 +10,11 @@ workspace:
   path: /drone/src
 
 steps:
-- name: send telegram notification
-  image: appleboy/drone-telegram
-  settings:
-    token:
-      from_secret: telegram_token
-    to:
-      from_secret: telegram_id
-    message: >
-      {{#success build.status}}
-        build {{build.number}} succeeded. Good job.
-      {{else}}
-        build {{build.number}} failed. Fix me please.
-      {{/success}}
-
-- name: environments
-  image: alpine
-  commands:
-  - export NGINX_VERSION="$(cat NGINX_VERSION.txt)"
-  - export MORE_HEADER_MODULE_VERSION="$(cat MORE_HEADER_MODULE_VERSION.txt)"
-
 - name: fetch
   image: alpine/git
   commands:
+  - export NGINX_VERSION="$(cat NGINX_VERSION.txt)"
+  - export MORE_HEADER_MODULE_VERSION="$(cat MORE_HEADER_MODULE_VERSION.txt)"
   - wget "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
   - tar -zxf nginx-${NGINX_VERSION}.tar.gz
   - git clone --single-branch --branch "${MORE_HEADER_MODULE_VERSION}" https://github.com/openresty/headers-more-nginx-module.git
@@ -40,6 +22,7 @@ steps:
 - name: compile
   image: gcc
   commands:
+  - export NGINX_VERSION="$(cat NGINX_VERSION.txt)"
   - cd nginx-${NGINX_VERSION}
   - ./configure --add-dynamic-module=../headers-more-nginx-module --with-compat
   - make modules
@@ -58,4 +41,18 @@ steps:
       - adler32
       - crc32
     files:
-      - /drone/src/nginx-${NGINX_VERSION}/objs/ngx_http_headers_more_filter_module.so
+      - objs/ngx_http_headers_more_filter_module.so
+
+- name: send telegram notification
+  image: appleboy/drone-telegram
+  settings:
+    token:
+      from_secret: telegram_token
+    to:
+      from_secret: telegram_id
+    message: >
+      {{#success build.status}}
+        build {{build.number}} succeeded. Good job.
+      {{else}}
+        build {{build.number}} failed. Fix me please.
+      {{/success}}
