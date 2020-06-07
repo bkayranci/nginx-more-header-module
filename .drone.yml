@@ -26,6 +26,7 @@ steps:
   - cd /root/.shared-volume/nginx-1.18.0
   - ./configure --add-dynamic-module=../headers-more-nginx-module 
   - make
+  - pwd
   - ls -lh objs/
 
 - name: publish
@@ -45,7 +46,7 @@ steps:
       - adler32
       - crc32
     files:
-      - cd /root/.shared-volume/nginx-1.18.0/objs/*
+      - cd /root/.shared-volume/nginx-1.18.0/objs/ngx_http_headers_more_filter_module.so
 
 trigger:
   event:
