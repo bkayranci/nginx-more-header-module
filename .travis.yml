@@ -1,6 +1,7 @@
-sudo: required
+root: required
 dist: trusty
 os: linux
+language: c
 
 arch:
   - amd64
@@ -12,6 +13,8 @@ compiler:
   - gcc
   - clang
 
+before_script:
+  - sudo su
 
 install:
   - git clone --single-branch --branch branches/stable-1.18 https://github.com/nginx/nginx.git
