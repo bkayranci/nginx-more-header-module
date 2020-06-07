@@ -26,7 +26,7 @@ steps:
   image: gcc
   commands:
   - export NGINX_VERSION="$(cat NGINX_VERSION.txt)"
-  - cd nginx-${NGINX_VERSION}
+  - cd nginx-$NGINX_VERSION
   - ./configure --add-dynamic-module=../headers-more-nginx-module --with-compat
   - make modules
 
