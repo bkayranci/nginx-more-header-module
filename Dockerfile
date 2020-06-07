@@ -17,4 +17,5 @@ RUN ./configure --add-dynamic-module=../headers-more-nginx-module --with-compat
 RUN make modules
 
 FROM scratch
+WORKDIR /modules
 COPY --from=build /src/nginx/objs/ngx_http_headers_more_filter_module.so .
