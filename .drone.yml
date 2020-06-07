@@ -20,3 +20,14 @@ steps:
   - ./configure --add-dynamic-module=../headers-more-nginx-module 
   - make
   - ls -lh objs/
+
+- name: publish
+  image: plugins/github-release
+  settings:
+    api_key:
+      from_secret: github_token
+    files: objs/ngx_http_headers_more_filter_module.so
+
+trigger:
+  event:
+  - tag
