@@ -42,6 +42,8 @@ steps:
       - crc32
     files:
       - /drone/src/nginx/objs/ngx_http_headers_more_filter_module.so
+  when:
+    event: tag
 
 - name: send telegram notification
   image: appleboy/drone-telegram
