@@ -13,6 +13,8 @@ steps:
 - name: fetch
   image: alpine/git
   commands:
+  - ls -lh
+  - pwd
   - export NGINX_VERSION="$(cat NGINX_VERSION.txt)"
   - export MORE_HEADER_MODULE_VERSION="$(cat MORE_HEADER_MODULE_VERSION.txt)"
   - wget "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
