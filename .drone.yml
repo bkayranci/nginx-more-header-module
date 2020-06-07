@@ -9,6 +9,10 @@ platform:
 workspace:
   path: /drone/src
 
+environment:
+  NGINX_VERSION: 1.18.0
+  MORE_HEADER_MODULE_VERSION: v0.33
+
 steps:
 - name: fetch
   image: alpine/git
