@@ -23,8 +23,6 @@ steps:
 
 - name: publish
   image: plugins/github-release
-  commands:
-  - ls -lh
   settings:
     overwrite: yes
     api_key:
