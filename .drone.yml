@@ -6,35 +6,46 @@ platform:
   arch: amd64
   os: linux
 
+workspace:
+  path: /drone/src
+
 steps:
+- name: send telegram notification
+  image: appleboy/drone-telegram
+  settings:
+    token:
+      from_secret: telegram_token
+    to:
+      from_secret: telegram_id
+    message: >
+      {{#success build.status}}
+        build {{build.number}} succeeded. Good job.
+      {{else}}
+        build {{build.number}} failed. Fix me please.
+      {{/success}}
+
+- name: environments
+  image: alpine
+  commands:
+  - export NGINX_VERSION="$(cat NGINX_VERSION.txt)"
+  - export MORE_HEADER_MODULE_VERSION="$(cat MORE_HEADER_MODULE_VERSION.txt)"
+
 - name: fetch
   image: alpine/git
-  volumes:
-  - name: shared-volume
-    path: /root/.shared-volume
   commands:
-  - cd /root/.shared-volume
-  - wget https://nginx.org/download/nginx-1.18.0.tar.gz
-  - tar -zxf nginx-1.18.0.tar.gz
-  - git clone --single-branch --branch v0.33 https://github.com/openresty/headers-more-nginx-module.git
+  - wget "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
+  - tar -zxf nginx-${NGINX_VERSION}.tar.gz
+  - git clone --single-branch --branch "${MORE_HEADER_MODULE_VERSION}" https://github.com/openresty/headers-more-nginx-module.git
 
 - name: compile
   image: gcc
-  volumes:
-  - name: shared-volume
-    path: /root/.shared-volume
   commands:
-  - cd /root/.shared-volume/nginx-1.18.0
+  - cd nginx-${NGINX_VERSION}
   - ./configure --add-dynamic-module=../headers-more-nginx-module --with-compat
-  - make
-  - pwd
-  - ls -lh objs/
+  - make modules
 
 - name: publish
   image: plugins/github-release
-  volumes:
-  - name: shared-volume
-    path: /root/.shared-volume
   settings:
     overwrite: yes
     api_key:
@@ -47,12 +58,4 @@ steps:
       - adler32
       - crc32
     files:
-      - /root/.shared-volume/nginx-1.18.0/objs/ngx_http_headers_more_filter_module.so
-
-trigger:
-  event:
-  - tag
-
-volumes:
-- name: shared-volume
-  temp: {}
+      - /drone/src/nginx-${NGINX_VERSION}/objs/ngx_http_headers_more_filter_module.so
