@@ -15,11 +15,12 @@ steps:
   commands:
   - ls -lh
   - pwd
+  - cat NGINX_VERSION.txt
   - export NGINX_VERSION="$(cat NGINX_VERSION.txt)"
   - export MORE_HEADER_MODULE_VERSION="$(cat MORE_HEADER_MODULE_VERSION.txt)"
   - wget "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz"
-  - tar -zxf nginx-${NGINX_VERSION}.tar.gz
-  - git clone --single-branch --branch "${MORE_HEADER_MODULE_VERSION}" https://github.com/openresty/headers-more-nginx-module.git
+  - tar -zxf nginx-$NGINX_VERSION.tar.gz
+  - git clone --single-branch --branch "$MORE_HEADER_MODULE_VERSION" https://github.com/openresty/headers-more-nginx-module.git
 
 - name: compile
   image: gcc
