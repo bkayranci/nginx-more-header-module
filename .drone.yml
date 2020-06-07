@@ -33,6 +33,9 @@ steps:
 
 - name: publish
   image: plugins/github-release
+  commands:
+  - export NGINX_VERSION="$(cat NGINX_VERSION.txt)"
+  - export MORE_HEADER_MODULE_VERSION="$(cat MORE_HEADER_MODULE_VERSION.txt)"
   settings:
     overwrite: yes
     api_key:
@@ -45,8 +48,8 @@ steps:
       - adler32
       - crc32
     note: >
-      Nginx: $(cat /drone/src/NGINX_VERSION.txt)
-      headers-more-nginx-module: $(cat MORE_HEADER_MODULE_VERSION.txt)
+      Nginx: ${NGINX_VERSION}
+      headers-more-nginx-module: ${MORE_HEADER_MODULE_VERSION}
     files:
       - /drone/src/nginx/objs/ngx_http_headers_more_filter_module.so
   when:
