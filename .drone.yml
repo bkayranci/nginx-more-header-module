@@ -9,10 +9,6 @@ platform:
 workspace:
   path: /drone/src
 
-environment:
-  NGINX_VERSION: 1.18.0
-  MORE_HEADER_MODULE_VERSION: v0.33
-
 steps:
 - name: fetch
   image: alpine/git
@@ -48,8 +44,7 @@ steps:
       - adler32
       - crc32
     note: >
-      Nginx: ${NGINX_VERSION}
-      headers-more-nginx-module: ${MORE_HEADER_MODULE_VERSION}
+      ${DRONE_TAG}
     files:
       - /drone/src/nginx/objs/ngx_http_headers_more_filter_module.so
   when:
