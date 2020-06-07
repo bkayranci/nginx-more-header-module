@@ -46,7 +46,7 @@ steps:
       - adler32
       - crc32
     files:
-      - cd /root/.shared-volume/nginx-1.18.0/objs/ngx_http_headers_more_filter_module.so
+      - /root/.shared-volume/nginx-1.18.0/objs/ngx_http_headers_more_filter_module.so
 
 trigger:
   event:
