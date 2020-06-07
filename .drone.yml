@@ -41,8 +41,8 @@ steps:
       - adler32
       - crc32
     note: >
-      Nginx: "$NGINX_VERSION"
-      headers-more-nginx-module: "$MORE_HEADER_MODULE_VERSION"
+      Nginx: $NGINX_VERSION
+      headers-more-nginx-module: $MORE_HEADER_MODULE_VERSION
     files:
       - /drone/src/nginx/objs/ngx_http_headers_more_filter_module.so
   when:
