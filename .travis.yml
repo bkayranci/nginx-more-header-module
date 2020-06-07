@@ -1,0 +1,24 @@
+sudo: required
+dist: trusty
+os: linux
+
+arch:
+  - amd64
+  - ppc64le
+  - s390x
+  - arm64
+
+compiler:
+  - gcc
+  - clang
+
+
+install:
+  - git clone --single-branch branches/stable-1.18 https://github.com/nginx/nginx.git
+  - git clone --single-branch v0.33 https://github.com/openresty/headers-more-nginx-module.git
+
+script:
+  - cd nginx
+  - ./configure --add-dynamic-module=../headers-more-nginx-module
+  - make
+  - ls -l objs/
