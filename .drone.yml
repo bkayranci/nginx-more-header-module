@@ -23,6 +23,7 @@ steps:
 - name: compile
   image: gcc
   commands:
+  - ls -lh
   - cd nginx
   - ./configure --add-dynamic-module=../headers-more-nginx-module --with-compat
   - make modules
