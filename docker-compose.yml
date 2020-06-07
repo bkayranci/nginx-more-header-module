@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  more-header-module:
+    image: bkayranci/nginx-more-header-module
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        nginx_version: 1.18.0
+        more_header_module_version: v0.33
+    entrypoint: tail /etc/hosts
