@@ -13,8 +13,8 @@ compiler:
   - gcc
   - clang
 
-before_script:
-  - sudo su
+# before_script:
+#   - sudo su
 
 install:
   - git clone --single-branch --branch branches/stable-1.18 https://github.com/nginx/nginx.git
@@ -22,6 +22,6 @@ install:
 
 script:
   - cd nginx/auto
-  - ./configure --add-dynamic-module=../headers-more-nginx-module
-  - make
-  - ls -l objs/
+  - sudo ./configure --add-dynamic-module=../headers-more-nginx-module
+  - sudo make
+  - ls -lh objs/
