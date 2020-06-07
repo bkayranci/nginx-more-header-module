@@ -18,7 +18,7 @@ install:
   - git clone --single-branch --branch v0.33 https://github.com/openresty/headers-more-nginx-module.git
 
 script:
-  - cd nginx
+  - cd nginx/auto
   - ./configure --add-dynamic-module=../headers-more-nginx-module
   - make
   - ls -l objs/
