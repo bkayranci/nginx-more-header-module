@@ -51,7 +51,7 @@ steps:
   image: plugins/docker
   settings:
     repo: bkayranci/nginx-more-header-module
-    auto_tag: true
+    tags: ${DRONE_TAG}
     username:
       from_secret: registry_user
     password:
