@@ -24,10 +24,8 @@ steps:
   - name: shared-volume
     path: /root/.shared-volume
   commands:
-  - apt-get update
-  - apt-get -y install libgeoip-dev
   - cd /root/.shared-volume/nginx-1.18.0
-  - ./configure --add-dynamic-module=../headers-more-nginx-module --with-cc-opt='-march=x86-64 -mtune=generic -O2 -pipe -fno-plt -D_FORTIFY_SOURCE=2' --with-ld-opt=-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now
+  - ./configure --add-dynamic-module=../headers-more-nginx-module --with-compat
   - make
   - pwd
   - ls -lh objs/
