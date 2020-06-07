@@ -47,6 +47,21 @@ steps:
   when:
     event: tag
 
+- name: dockerization
+  image: plugins/docker
+  settings:
+    repo: bkayranci/nginx-more-header-module
+    auto_tag: true
+    username:
+      from_secret: registry_user
+    password:
+      from_secret: registry_pass
+    build_args:
+      - nginx_version=1.19.0
+      - more_header_module_version=v0.33
+  when:
+    event: tag
+
 - name: send telegram notification
   image: appleboy/drone-telegram
   settings:
