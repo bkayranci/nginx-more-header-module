@@ -17,13 +17,12 @@ steps:
   - export MORE_HEADER_MODULE_VERSION="$(cat MORE_HEADER_MODULE_VERSION.txt)"
   - wget "https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz"
   - tar -zxf nginx-$NGINX_VERSION.tar.gz
-  - mv nginx-$NGINX_VERSION.tar.gz nginx
+  - mv nginx-$NGINX_VERSION nginx
   - git clone --single-branch --branch "$MORE_HEADER_MODULE_VERSION" https://github.com/openresty/headers-more-nginx-module.git
 
 - name: compile
   image: gcc
   commands:
-  - ls -lh
   - cd nginx
   - ./configure --add-dynamic-module=../headers-more-nginx-module --with-compat
   - make modules
