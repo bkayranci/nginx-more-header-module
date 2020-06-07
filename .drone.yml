@@ -29,9 +29,6 @@ steps:
 
 - name: publish
   image: plugins/github-release
-  commands:
-  - export NGINX_VERSION="$(cat NGINX_VERSION.txt)"
-  - export MORE_HEADER_MODULE_VERSION="$(cat MORE_HEADER_MODULE_VERSION.txt)"
   settings:
     overwrite: yes
     api_key:
