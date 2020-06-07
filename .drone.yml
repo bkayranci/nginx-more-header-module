@@ -4,6 +4,7 @@ name: compile-on-amd64
 
 platform:
   arch: amd64
+  os: linux
 
 steps:
 - name: fetch
