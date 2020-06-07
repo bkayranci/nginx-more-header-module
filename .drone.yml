@@ -8,21 +8,31 @@ platform:
 steps:
 - name: fetch
   image: alpine/git
+  volumes:
+  - name: shared-volume
+    path: /root/.shared-volume
   commands:
+  - cd /root/.shared-volume
   - wget https://nginx.org/download/nginx-1.18.0.tar.gz
   - tar -zxf nginx-1.18.0.tar.gz
   - git clone --single-branch --branch v0.33 https://github.com/openresty/headers-more-nginx-module.git
 
 - name: compile
   image: gcc
+  volumes:
+  - name: shared-volume
+    path: /root/.shared-volume
   commands:
-  - cd nginx-1.18.0
+  - cd /root/.shared-volume/nginx-1.18.0
   - ./configure --add-dynamic-module=../headers-more-nginx-module 
   - make
   - ls -lh objs/
 
 - name: publish
   image: plugins/github-release
+  volumes:
+  - name: shared-volume
+    path: /root/.shared-volume
   settings:
     overwrite: yes
     api_key:
@@ -35,8 +45,12 @@ steps:
       - adler32
       - crc32
     files:
-      - objs/*
+      - cd /root/.shared-volume/nginx-1.18.0/objs/*
 
 trigger:
   event:
   - tag
+
+volumes:
+- name: shared-volume
+  temp: {}
