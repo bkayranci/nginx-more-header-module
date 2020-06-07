@@ -9,13 +9,14 @@ steps:
 - name: fetch
   image: alpine/git
   commands:
-  - git clone --single-branch --branch branches/stable-1.18 https://github.com/nginx/nginx.git
+  - wget https://nginx.org/download/nginx-1.18.0.tar.gz
+  - tar -zxf nginx-1.18.0.tar.gz
   - git clone --single-branch --branch v0.33 https://github.com/openresty/headers-more-nginx-module.git
 
 - name: compile
   image: gcc
   commands:
-  - cd nginx/auto
+  - cd nginx-1.18.0
   - ./configure --add-dynamic-module=../headers-more-nginx-module 
   - make
   - ls -lh objs/
